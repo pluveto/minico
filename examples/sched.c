@@ -46,17 +46,17 @@ int main()
     co_init(&co2, task_func, &task2);
     co_init(&co3, task_func, &task3);
 
-    while (co1.state != CO_FIN || co2.state != CO_FIN || co3.state != CO_FIN)
+    while (co1.state != _CO_STATE_FIN || co2.state != _CO_STATE_FIN || co3.state != _CO_STATE_FIN)
     {
-        if (co1.state != CO_FIN)
+        if (co1.state != _CO_STATE_FIN)
         {
             co_next(&co1);
         }
-        if (co2.state != CO_FIN)
+        if (co2.state != _CO_STATE_FIN)
         {
             co_next(&co2);
         }
-        if (co3.state != CO_FIN)
+        if (co3.state != _CO_STATE_FIN)
         {
             co_next(&co3);
         }

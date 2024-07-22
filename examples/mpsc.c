@@ -83,18 +83,18 @@ int main()
         int all_producers_finished = 1;
         for (int i = 0; i < NUM_PRODUCERS; i++)
         {
-            if (producer[i].state != CO_FIN)
+            if (producer[i].state != _CO_STATE_FIN)
             {
                 co_next(&producer[i]);
                 all_producers_finished = 0;
             }
         }
-        if (consumer.state != CO_FIN)
+        if (consumer.state != _CO_STATE_FIN)
         {
             co_next(&consumer);
         }
 
-        if (all_producers_finished && consumer.state == CO_FIN)
+        if (all_producers_finished && consumer.state == _CO_STATE_FIN)
         {
             break;
         }

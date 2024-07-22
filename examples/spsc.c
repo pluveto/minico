@@ -64,13 +64,13 @@ int main()
     co_init(&producer, producer_func, &produce_count);
     co_init(&consumer, consumer_func, &consume_count);
 
-    while (producer.state != CO_FIN || consumer.state != CO_FIN)
+    while (producer.state != _CO_STATE_FIN || consumer.state != _CO_STATE_FIN)
     {
-        if (producer.state != CO_FIN)
+        if (producer.state != _CO_STATE_FIN)
         {
             co_next(&producer);
         }
-        if (consumer.state != CO_FIN)
+        if (consumer.state != _CO_STATE_FIN)
         {
             co_next(&consumer);
         }
