@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <pthread.h>
 #include <time.h>
 #include "co.h"
 
@@ -12,10 +11,9 @@ typedef struct
 {
     int buffer[BUFFER_SIZE];
     int count;
-    pthread_mutex_t mutex;
 } Buffer;
 
-Buffer buffer = {.count = 0, .mutex = PTHREAD_MUTEX_INITIALIZER};
+Buffer buffer = {.count = 0};
 
 int producer_func(Co *co, void *data)
 {
@@ -28,14 +26,12 @@ int producer_func(Co *co, void *data)
     {
         if (buffer.count < BUFFER_SIZE)
         {
-            pthread_mutex_lock(&buffer.mutex);
             if (buffer.count < BUFFER_SIZE)
             {
                 buffer.buffer[buffer.count++] = *produce_count;
                 printf("Produced: %d\n", *produce_count);
                 (*produce_count)--;
             }
-            pthread_mutex_unlock(&buffer.mutex);
         }
         usleep(rand() % 200000); // Sleep for a random time between 0 and 200ms
         CO_YIELD(co, 0);
@@ -55,14 +51,12 @@ int consumer_func(Co *co, void *data)
     {
         if (buffer.count > 0)
         {
-            pthread_mutex_lock(&buffer.mutex);
             if (buffer.count > 0)
             {
                 int item = buffer.buffer[--buffer.count];
                 printf("Consumed: %d\n", item);
                 (*consume_count)--;
             }
-            pthread_mutex_unlock(&buffer.mutex);
         }
         usleep(100000); // Sleep for 100ms
         CO_YIELD(co, 0);
