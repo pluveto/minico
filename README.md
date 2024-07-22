@@ -19,44 +19,6 @@ make
 
 This will compile all the examples in the `examples` directory.
 
-## Examples
-
-### Fibonacci Example
-
-The `fib.c` example demonstrates how to use the coroutine library to generate a Fibonacci sequence. You can compile and run it as follows:
-
-```sh
-make fib
-./fib
-```
-
-### Multi-Producer Multi-Consumer Example
-
-The `mpmc.c` example demonstrates a multi-producer, multi-consumer scenario using coroutines. Compile and run it as follows:
-
-```sh
-make mpmc
-./mpmc
-```
-
-### Scheduler Example
-
-The `sched.c` example demonstrates a simple coroutine scheduler. Compile and run it as follows:
-
-```sh
-make sched
-./sched
-```
-
-### Timer Example
-
-The `timer.c` example demonstrates a coroutine-based timer. Compile and run it as follows:
-
-```sh
-make timer
-./timer
-```
-
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
