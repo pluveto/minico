@@ -55,4 +55,15 @@ int co_next(Co *co)
     return co->func(co, co->data);
 }
 
+int co_stop(Co *co)
+{
+    co->state = CO_FIN;
+    return 0;
+}
+
+int co_done(Co *co)
+{
+    return co->state == CO_FIN;
+}
+
 #endif // __TINY_CO_H__
