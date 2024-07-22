@@ -34,7 +34,7 @@ int main()
 
     co_init(&co, timer_func, &timer);
 
-    while (co.state != CO_FIN)
+    while (!co_done(&co))
     {
         co_next(&co);
     }

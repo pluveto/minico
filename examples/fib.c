@@ -54,10 +54,10 @@ int main(int argc, char *argv[])
 
     co_init(&co, fib_func, &fib);
 
-    while (co.state != CO_FIN)
+    while (!co_done(&co))
     {
         int val = co_next(&co);
-        if (co.state != CO_FIN)
+        if (!co_done(&co))
         {
             printf("%d ", val);
         }
