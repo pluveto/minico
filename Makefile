@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -O0
+CFLAGS = -Wall -Wextra -O0 -g3
 INCLUDES = -I.
 EXAMPLES = fib spsc mpsc sched timer prime sum
 BUILD_DIR = build
