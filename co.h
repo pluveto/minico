@@ -1,6 +1,11 @@
 #ifndef __TINY_CO_H__
 #define __TINY_CO_H__
 
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <setjmp.h>
+
 typedef enum
 {
     _CO_STATE_INIT,
@@ -19,21 +24,28 @@ typedef struct Co
     CoTask func;
     void *data;
     int label;
+    jmp_buf env;
 } Co;
 
 #define CO_BEGIN(co)     \
     switch ((co)->label) \
     {                    \
     case 0:
-#define CO_YIELD(co, value)     \
-    do                          \
-    {                           \
-        (co)->label = __LINE__; \
-        (co)->state = _CO_STATE_YIELD; \
-        return (value);         \
-    case __LINE__:;             \
+
+#define CO_YIELD(co, value)                        \
+    do                                             \
+    {                                              \
+        (co)->label = __LINE__;                    \
+        if (setjmp((co)->env) == 0)                \
+        {                                          \
+            (co)->state = _CO_STATE_YIELD;         \
+            return (value);                        \
+        }                                          \
+    case __LINE__:                                 \
+        ;                                          \
     } while (0)
-#define CO_END(co)        \
+
+#define CO_END(co)               \
     (co)->state = _CO_STATE_FIN; \
     }
 
@@ -52,7 +64,14 @@ int co_next(Co *co)
         return 0;
     }
     co->state = _CO_STATE_RUN;
-    return co->func(co, co->data);
+    if (setjmp(co->env) == 0)
+    {
+        return co->func(co, co->data);
+    }
+    else
+    {
+        return 1;
+    }
 }
 
 int co_stop(Co *co)
