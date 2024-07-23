@@ -1,5 +1,5 @@
 /**
- * Note: only support x86_64, and if you find any bug, please let me know.
+ * Note: only support x86_64 with -O0 flag, and if you find any bug, please let me know.
  */
 #ifndef __TINY_CO_H__
 #define __TINY_CO_H__
